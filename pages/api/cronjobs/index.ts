@@ -1,4 +1,3 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 import {KubeConfig, BatchV1beta1Api} from '@kubernetes/client-node'
 import type {V1beta1CronJobList} from '@kubernetes/client-node'
