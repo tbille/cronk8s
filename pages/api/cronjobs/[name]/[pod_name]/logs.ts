@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import {KubeConfig, CoreV1Api, V1beta1CronJob} from '@kubernetes/client-node'
+import {KubeConfig, CoreV1Api} from '@kubernetes/client-node'
 
 const kc = new KubeConfig();
 kc.loadFromDefault();
