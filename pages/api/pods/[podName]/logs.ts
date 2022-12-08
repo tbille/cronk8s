@@ -6,8 +6,7 @@ kc.loadFromDefault();
 const coreV1Api = kc.makeApiClient(CoreV1Api);
 
 type Query = {
-  name: string
-  pod_name: string
+  podName: string
 }
 
 type Error = {
@@ -19,11 +18,11 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<string | Error>
 ) {
-    const { name, pod_name }: Query = req.query as Query
+    const { podName }: Query = req.query as Query
 
     try {
         const cronJobRes = await coreV1Api.readNamespacedPodLog(
-            pod_name, 
+            podName, 
             "production"
         )
         res.status(200).json(cronJobRes.body)
