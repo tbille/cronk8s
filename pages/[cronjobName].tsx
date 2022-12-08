@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
-import { Breadcrumb, Layout, Table, Tag, Typography, Tooltip } from "antd";
+import { formatDistanceStrict, parseISO, formatISO } from "date-fns";
+
+import { Breadcrumb, Layout, Table, Tag, Typography } from "antd";
 
 const { Content } = Layout;
 
@@ -44,6 +46,21 @@ export default function CronJob() {
       render: (status: { completionTime: string }) => (
         <Text>{status.completionTime}</Text>
       ),
+    },
+    {
+      title: "Execution Time",
+      dataIndex: "status",
+      key: "status.executionTime",
+      render: (status: { startTime: string; completionTime: string }) =>
+        status.completionTime &&
+        status.startTime && (
+          <Text>
+            {formatDistanceStrict(
+              parseISO(status.completionTime),
+              parseISO(status.startTime)
+            )}
+          </Text>
+        ),
     },
     {
       title: "Status",
