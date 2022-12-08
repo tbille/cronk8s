@@ -10,8 +10,6 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<V1beta1CronJobList>
 ) {
-    let cronjobs: string[] = []
-
     const cronJobRes = await batchV1beta1Api.listNamespacedCronJob("production")
     res.status(200).json(cronJobRes.body)
 }
