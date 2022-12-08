@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import useSWR from "swr";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
-import { formatDistanceStrict, parseISO, formatISO } from "date-fns";
+import { formatDistanceStrict, parseISO } from "date-fns";
 
 import { Breadcrumb, Layout, Table, Tag, Typography } from "antd";
 
@@ -10,23 +10,22 @@ const { Content } = Layout;
 
 const { Title, Text } = Typography;
 
+const fetcher = async (cronjobName: string) => {
+  const res = await fetch(`/api/cronjobs/${cronjobName}/jobs`);
+  let data = await res.json();
+  data = data.map((job: any) => {
+    job.key = job.metadata.uid;
+    return job;
+  });
+
+  return data.reverse();
+};
+
 export default function CronJob() {
   const router = useRouter();
   const { cronjobName } = router.query;
-  const [data, setData] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await fetch(`/api/cronjobs/${cronjobName}/jobs`);
-      let data = await res.json();
-      data = data.map((job) => {
-        job.key = job.metadata.uid;
-        return job;
-      });
-      setData(data.reverse());
-    };
-    fetchData();
-  }, [cronjobName]);
+  const { data, error } = useSWR(cronjobName, fetcher);
 
   const columns: ColumnsType<any> = [
     {
