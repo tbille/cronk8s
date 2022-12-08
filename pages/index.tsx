@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { Breadcrumb, Layout, Table, Tag, Typography, Tooltip } from "antd";
 import { PlaySquareTwoTone } from "@ant-design/icons";
 import type { ColumnsType } from "antd/es/table";
 
 import parser from "cron-parser";
 
-const { Footer, Content } = Layout;
+const { Content } = Layout;
 
 const { Title, Text } = Typography;
 
@@ -82,7 +83,11 @@ export default function Home() {
       title: "Name",
       dataIndex: "metadata",
       key: "metadata.name",
-      render: (metadata: { name: string }) => <Text>{metadata.name}</Text>,
+      render: (metadata: { name: string }) => (
+        <Link href={`/${metadata.name}`}>
+          <Text>{metadata.name}</Text>
+        </Link>
+      ),
     },
     {
       title: "Status",
@@ -109,7 +114,7 @@ export default function Home() {
     <Layout>
       <Content style={{ padding: "2rem 5rem" }}>
         <Breadcrumb style={{ margin: "16px 0" }}>
-          <Breadcrumb.Item>Cronjobs</Breadcrumb.Item>>
+          <Breadcrumb.Item>Cronjobs</Breadcrumb.Item>
         </Breadcrumb>
         <div style={{ background: "#fff", padding: 24, minHeight: 280 }}>
           <Title>Cronjobs</Title>
