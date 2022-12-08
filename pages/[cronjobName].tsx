@@ -18,7 +18,11 @@ export default function CronJob() {
   useEffect(() => {
     const fetchData = async () => {
       const res = await fetch(`/api/cronjobs/${cronjobName}/jobs`);
-      const data = await res.json();
+      let data = await res.json();
+      data = data.map((job) => {
+        job.key = job.metadata.uid;
+        return job;
+      });
       setData(data.reverse());
     };
     fetchData();
