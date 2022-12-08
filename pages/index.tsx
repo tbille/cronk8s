@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import useSWR from "swr";
 import Link from "next/link";
 import { Breadcrumb, Layout, Table, Tag, Typography, Tooltip } from "antd";
 import { PlaySquareTwoTone } from "@ant-design/icons";
@@ -47,21 +47,21 @@ interface ICronJobs {
   };
 }
 
-export default function Home() {
-  const [data, setData] = useState<ICronJobs>(null);
+const fetcher = async () => {
+  const res = await fetch("/api/cronjobs");
+  let data = await res.json();
+  data.items = data.items.map((item: ICronJob) => {
+    item.key = item.metadata.uid;
+    return item;
+  });
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await fetch("/api/cronjobs");
-      const json = await res.json();
-      json.items = json.items.map((item: ICronJob) => {
-        item.key = item.metadata.uid;
-        return item;
-      });
-      setData(json);
-    };
-    fetchData();
-  }, []);
+  return data;
+};
+
+export default function Home() {
+  const { data, error } = useSWR<ICronJobs>("/api/cronjobs", fetcher, {
+    refreshInterval: 60000,
+  });
 
   const columns: ColumnsType<ICronJob> = [
     {

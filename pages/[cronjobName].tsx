@@ -25,7 +25,9 @@ export default function CronJob() {
   const router = useRouter();
   const { cronjobName } = router.query;
 
-  const { data, error } = useSWR(cronjobName, fetcher);
+  const { data, error } = useSWR(cronjobName, fetcher, {
+    refreshInterval: 60000,
+  });
 
   const columns: ColumnsType<any> = [
     {
