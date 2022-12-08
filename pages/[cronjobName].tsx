@@ -1,26 +1,31 @@
-import { useEffect, useState } from "react";
+import useSWR from "swr";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
-import { Breadcrumb, Layout, Table, Tag, Typography, Tooltip } from "antd";
+import { formatDistanceStrict, parseISO } from "date-fns";
+
+import { Breadcrumb, Layout, Table, Tag, Typography } from "antd";
 
 const { Content } = Layout;
 
 const { Title, Text } = Typography;
 
+const fetcher = async (cronjobName: string) => {
+  const res = await fetch(`/api/cronjobs/${cronjobName}/jobs`);
+  let data = await res.json();
+  data = data.map((job: any) => {
+    job.key = job.metadata.uid;
+    return job;
+  });
+
+  return data.reverse();
+};
+
 export default function CronJob() {
   const router = useRouter();
   const { cronjobName } = router.query;
-  const [data, setData] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await fetch(`/api/cronjobs/${cronjobName}/jobs`);
-      const data = await res.json();
-      setData(data.reverse());
-    };
-    fetchData();
-  }, [cronjobName]);
+  const { data, error } = useSWR(cronjobName, fetcher);
 
   const columns: ColumnsType<any> = [
     {
@@ -44,6 +49,21 @@ export default function CronJob() {
       render: (status: { completionTime: string }) => (
         <Text>{status.completionTime}</Text>
       ),
+    },
+    {
+      title: "Execution Time",
+      dataIndex: "status",
+      key: "status.executionTime",
+      render: (status: { startTime: string; completionTime: string }) =>
+        status.completionTime &&
+        status.startTime && (
+          <Text>
+            {formatDistanceStrict(
+              parseISO(status.completionTime),
+              parseISO(status.startTime)
+            )}
+          </Text>
+        ),
     },
     {
       title: "Status",
