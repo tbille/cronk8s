@@ -111,16 +111,14 @@ export default function Home() {
   ];
 
   return (
-    <Layout>
-      <Content style={{ padding: "2rem 5rem" }}>
-        <Breadcrumb style={{ margin: "16px 0" }}>
-          <Breadcrumb.Item>Cronjobs</Breadcrumb.Item>
-        </Breadcrumb>
-        <div style={{ background: "#fff", padding: 24, minHeight: 280 }}>
-          <Title>Cronjobs</Title>
-          {data && <Table columns={columns} dataSource={data.items} />}
-        </div>
-      </Content>
-    </Layout>
+    <Content style={{ padding: "2rem 5rem" }}>
+      <Breadcrumb style={{ margin: "16px 0" }}>
+        <Breadcrumb.Item>Cronjobs</Breadcrumb.Item>
+      </Breadcrumb>
+      <div style={{ background: "#fff", padding: 24, minHeight: 280 }}>
+        <Title>Cronjobs</Title>
+        {data && <Table columns={columns} dataSource={data.items} />}
+      </div>
+    </Content>
   );
 }

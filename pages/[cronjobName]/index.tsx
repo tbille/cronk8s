@@ -34,7 +34,11 @@ export default function CronJob() {
       title: "Name",
       dataIndex: "metadata",
       key: "metadata.name",
-      render: (metadata: { name: string }) => <Text>{metadata.name}</Text>,
+      render: (metadata: { name: string }) => (
+        <Link href={`/${cronjobName}/${metadata.name}`}>
+          <Text>{metadata.name}</Text>
+        </Link>
+      ),
     },
     {
       title: "Started",
@@ -56,12 +60,18 @@ export default function CronJob() {
       title: "Execution Time",
       dataIndex: "status",
       key: "status.executionTime",
-      render: (status: { startTime: string; completionTime: string }) =>
-        status.completionTime &&
-        status.startTime && (
+      render: (status: {
+        startTime: string;
+        completionTime: string;
+        failed?: string;
+      }) =>
+        status.startTime &&
+        !status.failed && (
           <Text>
             {formatDistanceStrict(
-              parseISO(status.completionTime),
+              status.completionTime
+                ? parseISO(status.completionTime)
+                : new Date(),
               parseISO(status.startTime)
             )}
           </Text>
@@ -85,27 +95,25 @@ export default function CronJob() {
         }
 
         if (status.active) {
-          return <Tag color="blue">Active</Tag>;
+          return <Tag color="blue">Running</Tag>;
         }
       },
     },
   ];
 
   return (
-    <Layout>
-      <Content style={{ padding: "2rem 5rem" }}>
-        <Breadcrumb style={{ margin: "16px 0" }}>
-          <Breadcrumb.Item>
-            <Link href="/">Cronjobs</Link>
-          </Breadcrumb.Item>
-          <Breadcrumb.Item>{cronjobName}</Breadcrumb.Item>
-        </Breadcrumb>
-        <div style={{ background: "#fff", padding: 24, minHeight: 280 }}>
-          <Title>{cronjobName}</Title>
-          <Title level={2}>Jobs</Title>
-          {data && <Table columns={columns} dataSource={data} />}
-        </div>
-      </Content>
-    </Layout>
+    <Content style={{ padding: "2rem 5rem" }}>
+      <Breadcrumb style={{ margin: "16px 0" }}>
+        <Breadcrumb.Item>
+          <Link href="/">Cronjobs</Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>{cronjobName}</Breadcrumb.Item>
+      </Breadcrumb>
+      <div style={{ background: "#fff", padding: 24, minHeight: 280 }}>
+        <Title>{cronjobName}</Title>
+        <Title level={2}>Jobs</Title>
+        {data && <Table columns={columns} dataSource={data} />}
+      </div>
+    </Content>
   );
 }
