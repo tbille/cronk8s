@@ -8,7 +8,7 @@ import { Breadcrumb, Layout, Table, Tag, Typography } from "antd";
 
 const { Content } = Layout;
 
-const { Title, Text } = Typography;
+const { Text } = Typography;
 
 const fetcher = async (cronjobName: string) => {
   const res = await fetch(`/api/cronjobs/${cronjobName}/jobs`);
@@ -31,7 +31,7 @@ export default function CronJob() {
 
   const columns: ColumnsType<any> = [
     {
-      title: "Name",
+      title: "Job Name",
       dataIndex: "metadata",
       key: "metadata.name",
       render: (metadata: { name: string }) => (
@@ -105,13 +105,11 @@ export default function CronJob() {
     <Content style={{ padding: "2rem 5rem" }}>
       <Breadcrumb style={{ margin: "16px 0" }}>
         <Breadcrumb.Item>
-          <Link href="/">Cronjobs</Link>
+          <Link href="/">Cron Jobs</Link>
         </Breadcrumb.Item>
         <Breadcrumb.Item>{cronjobName}</Breadcrumb.Item>
       </Breadcrumb>
       <div style={{ background: "#fff", padding: 24, minHeight: 280 }}>
-        <Title>{cronjobName}</Title>
-        <Title level={2}>Jobs</Title>
         {data && <Table columns={columns} dataSource={data} />}
       </div>
     </Content>
