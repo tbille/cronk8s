@@ -1,3 +1,9 @@
+<h1 align="center">
+  <img src="public/cronk8s.png" width="128" height="128" alt="CronK8s Logo">
+  <br />
+  <tt>CronK8s</tt>
+</h1>
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
