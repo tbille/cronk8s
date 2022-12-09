@@ -6,7 +6,7 @@ import { Breadcrumb, Layout, Table, Tag, Typography } from "antd";
 
 const { Content } = Layout;
 
-const { Title, Text } = Typography;
+const { Text } = Typography;
 
 const fetcher = async (url: string) => {
   const res = await fetch(url);
@@ -34,7 +34,7 @@ export default function Pod() {
 
   const columns: ColumnsType<any> = [
     {
-      title: "Name",
+      title: "Pod Name",
       dataIndex: "metadata",
       key: "metadata.name",
       render: (metadata: { name: string }) => <Text>{metadata.name}</Text>,
@@ -82,7 +82,7 @@ export default function Pod() {
     <Content style={{ padding: "2rem 5rem" }}>
       <Breadcrumb style={{ margin: "16px 0" }}>
         <Breadcrumb.Item>
-          <Link href="/">Cronjobs</Link>
+          <Link href="/">Cron Jobs</Link>
         </Breadcrumb.Item>
         <Breadcrumb.Item>
           <Link href={`/${cronjobName}`}>{cronjobName}</Link>
@@ -90,8 +90,6 @@ export default function Pod() {
         <Breadcrumb.Item>{jobName}</Breadcrumb.Item>
       </Breadcrumb>
       <div style={{ background: "#fff", padding: 24, minHeight: 280 }}>
-        <Title>{jobName}</Title>
-        <Title level={2}>Pods</Title>
         {data && <Table columns={columns} dataSource={data} />}
       </div>
     </Content>

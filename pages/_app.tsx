@@ -3,10 +3,9 @@ import type { AppProps } from "next/app";
 import Link from "next/link";
 import Image from "next/image";
 
-import { Layout, Menu, Typography } from "antd";
+import { Layout, Menu } from "antd";
 
 const { Header } = Layout;
-const { Title } = Typography;
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -28,7 +27,7 @@ export default function App({ Component, pageProps }: AppProps) {
           items={[
             {
               key: "cronjobs",
-              label: <Link href="/">CronJobs</Link>,
+              label: <Link href="/">Cron Jobs</Link>,
             },
           ]}
         />

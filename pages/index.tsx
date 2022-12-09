@@ -8,7 +8,7 @@ import parser from "cron-parser";
 
 const { Content } = Layout;
 
-const { Title, Text } = Typography;
+const { Text } = Typography;
 
 interface ICronJobStatus {
   lastScheduleTime: string;
@@ -113,10 +113,9 @@ export default function Home() {
   return (
     <Content style={{ padding: "2rem 5rem" }}>
       <Breadcrumb style={{ margin: "16px 0" }}>
-        <Breadcrumb.Item>Cronjobs</Breadcrumb.Item>
+        <Breadcrumb.Item>Cron Jobs</Breadcrumb.Item>
       </Breadcrumb>
       <div style={{ background: "#fff", padding: 24, minHeight: 280 }}>
-        <Title>Cronjobs</Title>
         {data && <Table columns={columns} dataSource={data.items} />}
       </div>
     </Content>
