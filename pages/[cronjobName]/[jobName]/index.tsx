@@ -37,7 +37,11 @@ export default function Pod() {
       title: "Pod Name",
       dataIndex: "metadata",
       key: "metadata.name",
-      render: (metadata: { name: string }) => <Text>{metadata.name}</Text>,
+      render: (metadata: { name: string }) => (
+        <Link href={`/pods/${metadata.name}/logs`}>
+          <Text>{metadata.name}</Text>
+        </Link>
+      ),
     },
     {
       title: "Created",
